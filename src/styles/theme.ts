@@ -4,7 +4,7 @@ export default {
     gutter: '3.2rem'
   },
   border: {
-    radius: '0.5rem'
+    radius: '0.8rem'
   },
   font: {
     family:
@@ -24,11 +24,15 @@ export default {
     primary_100: '#01080E',
     primary_200: '#011627',
     primary_300: '#011627',
+    primary_400: '#1C2B3A',
+    primary_450: '#263B50',
     secondary_100: '#607B96',
     secondary_200: '#3C9D93',
     secondary_300: '#4D5BCE',
     secondary_400: '#FFFFFF',
+    secondary_450: 'rgba(255, 255, 255, 0.7)',
     accent_100: '#FEA55F',
+    accent_150: '#FFAC6B',
     accent_200: '#43D9AD',
     accent_300: '#E99287',
     accent_400: '#C98BDF',

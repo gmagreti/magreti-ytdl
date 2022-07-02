@@ -1,3 +1,4 @@
+import Button from 'components/Button'
 import * as S from './styles'
 
 const Main = ({
@@ -11,6 +12,8 @@ const Main = ({
     />
     <S.Title>{title}</S.Title>
     <S.Description>{description}</S.Description>
+
+    <Button>Gabriel Magreti</Button>
     <S.Illustration
       src="/img/hero-illustration.svg"
       alt="Um desenvolvedor de frente para uma tela com código."

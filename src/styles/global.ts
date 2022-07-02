@@ -34,15 +34,18 @@ const GlobalStyles = createGlobalStyle`
     src: local(''),
         url('/fonts/FiraCode-Bold.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
   }
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+
 
   ${({ theme }) => css`
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-family: ${theme.font.family};
+    }
+
     html {
       font-size: 62.5%;
     }
