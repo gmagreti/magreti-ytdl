@@ -31,3 +31,7 @@ export const Illustration = styled.img`
   margin-top: 3rem;
   width: min(30rem, 100%);
 `
+
+export const WrapperFormat = styled.div`
+  display: flex;
+`
