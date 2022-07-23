@@ -1,14 +1,12 @@
 /* eslint-disable no-useless-escape */
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { Button, FormElement, Input, Spacer } from '@nextui-org/react'
 
 import { api } from 'services/api'
 
 import * as S from './styles'
-import fileDownload from 'js-file-download'
-import { toMP4 } from 'utils/download'
-import { getVideoID } from 'ytdl-core'
+import { FileSystemHandler } from 'pages/api/lib/fileSystemHanlder'
 
 type videoFormats = {
   id: string
@@ -41,6 +39,13 @@ const Main = ({
   const [youtubeData, setYoutubeData] = useState<youtubeDataProps>()
   const [formats, setFormats] = useState<videoFormats[]>()
 
+  function downloadURI(uri: any, name: any) {
+    const link = document.createElement('a')
+    link.download = name
+    link.href = uri
+    link.click()
+  }
+
   const onInputChange = (value: React.ChangeEvent<FormElement>) => {
     setInputValue(value.target.value)
   }
@@ -62,58 +67,22 @@ const Main = ({
     }
   }
 
-  useEffect(() => {
-    console.log(youtubeData)
-  }, [youtubeData])
-
   const handleDownload = async (
     url: string,
     quality: string,
     mimeType: string,
     container: string
   ) => {
-    const videoDownload = {
-      url: url,
-      quality: String(quality),
-      mimeType: mimeType,
-      container: container
-    }
-    const parsed_video_id = getVideoID(url).replace(
-      /[&\/\\#,+()$~%.'":*?<>{}]/g,
-      ''
-    )
+    const title = `${youtubeData?.title}.mp4`
 
-    // const { data } = await api.get(
-    //   `/downloadvideo/url=${url}quality=${quality}mimeType=${mimeType}container=${container}`
-    // )
-    // const parsed_video_id = getVideoID(url).replace(
-    //   /[&\/\\#,+()$~%.'":*?<>{}]/g,
-    //   ''
-    // )
-
-    // window.open(
-    //   `/api/downloadvideo/${parsed_video_id}?quality=${quality}mimeType=${mimeType}container=${container}`,
-    //   '_blank'
-    // )
-
-    // const { data } = await api.post('/downloadvideo', videoDownload, {
-    //   headers: {
-    //     responseType: 'blob' // important
-    //   }
-    // })
-    // const file = new File([data], `${youtubeData?.title}.mp4`, {
-    //   type: 'video.mp4'
-    // })
-
-    // toMP4(data, 'teste', mimeType)
-
-    // console.log(file)
-
-    // fileDownload(file, 'video.mp4')
-    window.open(
-      `/api/videos/${parsed_video_id}?video_only=false&audio_only=false&bitrate=128&quality=${quality}&format=${container}`,
-      '_blank'
-    )
+    await fetch(
+      `/api/downloadvideo?url=${url}&quality=${quality}&mimeType=${mimeType}&container=${container}&fileName=${youtubeData?.title}`,
+      { method: 'GET' }
+    ).then((response) => {
+      console.log(response)
+      downloadURI(`static/${title}`, `${title}`)
+      // FileSystemHandler.unlink(`static/${title}`)
+    })
   }
 
   return (
@@ -146,7 +115,7 @@ const Main = ({
                     onClick={() =>
                       handleDownload(
                         youtubeData!.videoUrl,
-                        format.qualityLabel,
+                        String(format.itag),
                         format.mimeType,
                         format.container
                       )

@@ -1,14 +1,15 @@
+import ffmpegPath from '@ffmpeg-installer/ffmpeg'
 import ffmpeg from 'fluent-ffmpeg'
 
+ffmpeg.setFfmpegPath(ffmpegPath.path)
 import ytdl from 'ytdl-core'
 
 import fs from 'fs'
 import { pipeline } from 'stream'
 import { v4 as uuidv4 } from 'uuid'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { YoutubeDownloader } from '../lib/youtubeDownloader'
 
-function getVideoStream(video_id, quality) {
+function getVideoStream(video_id: any, quality: any) {
   const video_stream = ytdl(video_id, {
     filter: (format) => {
       if (format.hasAudio) return false
@@ -19,8 +20,8 @@ function getVideoStream(video_id, quality) {
   })
   return video_stream
 }
-function getAudioStream(video_id) {
-  const audio_stream = ytdl(video_id, 'highestaudio')
+function getAudioStream(video_id: any) {
+  const audio_stream = ytdl(video_id, 'audioonly')
   return audio_stream
 }
 
